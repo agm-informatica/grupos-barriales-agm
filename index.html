@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
 	<link rel="icon" type="image/png" href="favicon.png">
+	<link rel="icon" sizes="192x192" href="favicon.png">
 	<link rel="apple-touch-icon" href="favicon.png">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="AGM Panel">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel AGM - Servicios Informáticos</title>
     <style>
@@ -175,7 +178,7 @@
 </header>
 
 <div class="search-wrapper">
-    <input type="text" id="groupSearch" placeholder="Buscar barrio..." onkeyup="filterGroups()">
+    <input type="text" id="groupSearch" placeholder="Buscar barrio..." onkeyup="filterGroups()" autofocus>
     <button id="clearSearch" onclick="clearInput()">&times;</button>
     <span id="groupCount">0</span>
 </div>
@@ -330,12 +333,14 @@
 
     // Escuchar la tecla Escape
     document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
-            clearInput();
-            document.getElementById('groupSearch').blur();
-        }
-    });
+    if (event.key === "Escape") {
+        clearInput();
+        // En lugar de .blur(), usamos .focus() para que el cursor vuelva al buscador
+        document.getElementById('groupSearch').focus();
+    }
+});
 </script>
 
 </body>
 </html>
+
