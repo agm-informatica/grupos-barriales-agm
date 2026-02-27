@@ -2,149 +2,169 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+	<link rel="icon" type="image/png" href="favicon.png">
+	<link rel="apple-touch-icon" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Grupos - AGM Servicios Informáticos</title>
+    <title>Panel AGM - Servicios Informáticos</title>
     <style>
         :root {
             --bg-color: #121212;
             --card-bg: #1e1e1e;
             --text-color: #e4e6eb;
             --accent-orange: #FF8C00;
-            --accent-hover: #e67e00;
         }
 
         body {
             font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
         }
 
         header {
             background-color: #000;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
-            border-bottom: 4px solid var(--accent-orange);
+            border-bottom: 3px solid var(--accent-orange);
         }
 
-        .header-img {
-            max-width: 150px;
-            height: auto;
-        }
+        .header-img { max-width: 180px; }
 
-        h1 {
-            margin: 10px 0;
-            font-size: 1.6rem;
-            color: white;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
+        h1 { margin: 5px 0; font-size: 1.2rem; color: white; }
 
         .search-wrapper {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 0 20px;
+            max-width: 500px;
+            margin: 15px auto;
+            padding: 0 15px;
             position: relative;
         }
 
         #groupSearch {
             width: 100%;
-            padding: 12px 80px 12px 15px;
+            padding: 10px 60px 10px 12px;
             border-radius: 8px;
-            border: 2px solid #333;
+            border: 1px solid #333;
             background-color: #1e1e1e;
             color: white;
             outline: none;
             box-sizing: border-box;
-            font-size: 1rem;
         }
+		
+		#clearSearch {
+			position: absolute;
+			right: 75px; /* Ajustado para que no tape el contador */
+			top: 50%;
+			transform: translateY(-50%);
+			background: none;
+			border: none;
+			color: #888;
+			font-size: 22px;
+			cursor: pointer;
+			display: none; /* Se oculta por defecto */
+		}
+
+		#clearSearch:hover {
+			color: var(--accent-orange);
+		}
 
         #groupCount {
             position: absolute;
-            right: 35px;
+            right: 25px;
             top: 50%;
             transform: translateY(-50%);
             background-color: var(--accent-orange);
             color: black;
             font-weight: bold;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
         }
 
         .container {
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
+            margin: 10px auto;
+            padding: 0 10px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
         }
 
         .card {
             background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
+            border-radius: 8px;
+            padding: 12px;
             border: 1px solid #333;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            border-color: var(--accent-orange);
-            background-color: #252525;
+            justify-content: space-between;
+            min-height: 140px;
         }
 
         .card-header {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 15px;
+            text-align: center;
+            gap: 8px;
         }
+		
+		/* Efecto de brillo y elevación al pasar el mouse */
+		.card:hover {
+			border-color: var(--accent-orange) !important;
+			background-color: #2a2a2a; 
+			transform: translateY(-4px); 
+			box-shadow: 0 8px 20px rgba(255, 140, 0, 0.25);
+			transition: all 0.3s ease;
+		}
+
+		/* Asegura que la tarjeta regrese suavemente a su estado original */
+		.card {
+			transition: all 0.3s ease;
+		}
 
         .group-img {
             width: 60px;
             height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            background-color: #333;
             border: 2px solid #444;
-            flex-shrink: 0;
         }
 
         .group-name {
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #fff;
-            flex: 1;
-            line-height: 1.3;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
+        .btn-container { text-align: center; margin-top: 10px; }
+
         .btn-ver {
+            display: inline-block;
             background-color: var(--accent-orange);
             color: #000;
             text-decoration: none;
-            text-align: center;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 4px;
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            transition: 0.2s;
-        }
-
-        .btn-ver:hover {
-            background-color: var(--accent-hover);
+            font-size: 0.7rem;
         }
 
         .hidden { display: none; }
 
-        footer { text-align: center; padding: 30px; color: #666; font-size: 0.8rem; }
+        @media (min-width: 600px) {
+            .grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+            .card-header { flex-direction: row; text-align: left; }
+            .group-name { font-size: 0.85rem; }
+        }
     </style>
 </head>
 <body onload="filterGroups()">
@@ -155,48 +175,139 @@
 </header>
 
 <div class="search-wrapper">
-    <input type="text" id="groupSearch" placeholder="Filtrar por barrio..." onkeyup="filterGroups()">
+    <input type="text" id="groupSearch" placeholder="Buscar barrio..." onkeyup="filterGroups()">
+    <button id="clearSearch" onclick="clearInput()">&times;</button>
     <span id="groupCount">0</span>
 </div>
 
 <div class="container">
     <div id="groupGrid" class="grid">
-        
-        <div class="card" data-name="liniers"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE LINIERS (Servicios)</div></div><a href="https://www.facebook.com/groups/2966390743654144/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="parque chacabuco"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Vecinos de Parque Chacabuco</div></div><a href="https://www.facebook.com/groups/vecinosdeparquechacabuco/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="comuna 7 flores parque chacabuco caballito floresta"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">COMUNA 7 FLORES P. CHACABUCO</div></div><a href="https://www.facebook.com/groups/928685464320757/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="versalles monte castro mataderos villa luro"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Emprendedores Versailles/M.Castro</div></div><a href="https://www.facebook.com/groups/760208125740896/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="caballito clasificados"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Clasificados de Caballito</div></div><a href="https://www.facebook.com/groups/5573448262735576/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="villa luro vecinos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE VILLA LURO</div></div><a href="https://www.facebook.com/groups/2056502147923947/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="floresta oficial"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE FLORESTA (Oficial)</div></div><a href="https://www.facebook.com/groups/268949373825941/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="mataderos barrio alberdi"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE MATADEROS</div></div><a href="https://www.facebook.com/groups/743668710113538/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="floresta flores venta"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">floresta y flores venta</div></div><a href="https://www.facebook.com/groups/florestaflores/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="versalles villa luro servicios"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Versalles, V. Luro (Servicios)</div></div><a href="https://www.facebook.com/groups/498513467547342/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="villa santa rita"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Villa Santa Rita</div></div><a href="https://www.facebook.com/groups/1472668869703939/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="villa del parque villa devoto"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Vecinos V. del Parque y Devoto</div></div><a href="https://www.facebook.com/groups/267214473929675/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="liniers mataderos lugano servicios"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">LINIERS, MATADEROS Y LUGANO</div></div><a href="https://www.facebook.com/groups/890682524653936/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="villa luro versalles monte castro ventas"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Villa Luro, Versalles (Ventas)</div></div><a href="https://www.facebook.com/groups/1794677757437290/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="villa real yo vivo"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Yo vivo en VILLA REAL</div></div><a href="https://www.facebook.com/groups/yovivoenvillareal/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="monte castro vecinos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE MONTE CASTRO</div></div><a href="https://www.facebook.com/groups/419563787837445/" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="barrio naon mataderos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Barrio Naon - Mataderos</div></div><a href="https://www.facebook.com/groups/143244712970575" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="versalles mi barrio"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VERSALLES "MI BARRIO"</div></div><a href="https://www.facebook.com/groups/148469672526973" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="villa luro versalles vecinos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Vecinos V. LURO Y VERSALLES</div></div><a href="https://www.facebook.com/groups/340640396082780" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="caballito norte vecinos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Vecinos de Caballito Norte</div></div><a href="https://www.facebook.com/groups/797830711092520" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="villa devoto villa real cercanias"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">V. Devoto, V. Real y cercanías</div></div><a href="https://www.facebook.com/groups/400297956763996" target="_blank" class="btn-ver">Ver grupo</a></div>
-        <div class="card" data-name="parque avellaneda floresta venta"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">parque avellaneda, floresta venta</div></div><a href="https://www.facebook.com/groups/693924234720782" target="_blank" class="btn-ver">Ver grupo</a></div>
+	
+		<div class="card" data-name="liniers servicios emprendimientos">
+			<div class="card-header"><img src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x-compressed.png" class="group-img"><div class="group-name">VECINOS DE LINIERS -servicios y emprendimientos-</div></div>
+			<div class="btn-container"><a href="https://www.facebook.com/groups/2966390743654144/" target="_blank" class="btn-ver">Ver</a></div>
+		</div>
+
+        <div class="card" data-name="COMUNA 7: Flores, Parque Chacabuco, Caballito, Floresta">
+            <div class="card-header"><img src="https://www.villacrespomibarrio.com.ar/2020/imagenes%20mayo/sede%20comunal%207.jpg" class="group-img"><div class="group-name">COMUNA 7: Flores, Parque Chacabuco, Caballito, Floresta</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/vecinosdeparquechacabuco/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="emprendedores versalles monte castro mataderos villa real devoto liniers">
+            <div class="card-header"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Grib_skov.jpg/960px-Grib_skov.jpg" class="group-img"><div class="group-name">Emprendedores Versalles, Monte Castro, Mataderos, Villa Real, Devoto, Liniers</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/928685464320757/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="versalles">
+            <div class="card-header"><img src="https://anguacurari.com.ar/wp-content/uploads/2022/05/WhatsApp-Image-2022-05-09-at-1.26.43-PM-1000x600.jpeg" class="group-img"><div class="group-name">Versalles - mi barrio</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/760208125740896/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="villa santa rita">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/315188802_106971698896387_632882133525994645_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=108&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeF0RQ8a3CYVwk4QwAye2eFjfhMaqQf-Kip-ExqpB_4qKh0-BiLNdJ79rCTkzcRNw9Y&_nc_ohc=7mEYbF5wVT0Q7kNvwE3nhll&_nc_oc=AdmAih2SObQo8Z9ku9e_hfy2EGn3ep9HgXv9F9ldBU8dxBJMVskW11xzs2yJbIWb-RUBUostl2NrLL0d9e7t4st0&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=pixa4XaWee8oMCevOG40RQ&oh=00_AfvxW4x-GnxichVvz3FvNnwMh9FW0lR3QFY1tt9DxcBxiw&oe=69A6F707" class="group-img"><div class="group-name">Villa Santa Rita</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/5573448262735576/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="parque avellaneda floresta">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t1.6435-9/192780721_10225879938572900_1842460267102522408_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeE318yxbzvwIBZtRFFZWXKePABFn2VwWZE8AEWfZXBZkTEhfkkwwX9zJ2l2yb3q7pQ&_nc_ohc=J-_DkkTvWisQ7kNvwG9oAqo&_nc_oc=Adk-E8x1k3-BvtrDQxOJn-AHJ9aFhpgE5rwRhfdk_e6LD-8cqT2z1_Apd7cfmvyLVBAlh6Zgn2_PvS5IsRPYfRpR&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=RsAbXY_vlAMGIRZsh1DiiA&oh=00_Afv2SfzFgxgHLZzc4STw4Xveiez7Wk0E8myJje69l3hWrw&oe=69C8B2B3" class="group-img"><div class="group-name">Parque Avellaneda, Floresta - venta</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/2056502147923947/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="liniers,velez s.,villa luro">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/242252866_622542038736479_4555842024892816789_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeHLtYZCyz5dL9CHuxqnZ_VvY7dVd_XC2Nhjt1V39cLY2Nt7HSD2eyD-9KGAbbwdYhM&_nc_ohc=UrKNhF3Vc-4Q7kNvwF7GJnC&_nc_oc=AdnRiHXvAimTmeYVIC-y-gLSgTdCycvzVpMxEDPTnRLxcq4u-75jufPRJ3xArNs556rfm6QEmS7ohtNkgfEK39Zw&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=6eQ1qv76WKYedsNHrIqHFA&oh=00_AfuHDSduitL6zRgfxmfOZRBVAh27XaY88aBMGW1uiRu45A&oe=69A715A9" class="group-img"><div class="group-name">Liniers,Velez S.,Villa Luro,para vecinos y alrededores.</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/268949373825941/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="monte castro villa luro">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/460191030_10159875041811288_4215790624196677927_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=106&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeGAYyswx71H0jDx9cDvgDbG8NfM9vsbUXHw18z2-xtRcX9JatAX2NtrJj_kh6gZJ3M&_nc_ohc=L63qRrDZdMYQ7kNvwGWCp3N&_nc_oc=AdmN3Ml2ZaZbNMoKQAM6jwNmhBLKIFxseJTfmcOvnL6ViVnBoJVOIAAk2VD_Z-D2mRVb7nAR02HgUDCUgBJUbFgy&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=Tg6k2uSGr6bQE3vKSzeHtQ&oh=00_Aft-t2We-IZn5SXdg1IEq0gasCvL32Q4MVdadQoP72rAHg&oe=69A704D1" class="group-img"><div class="group-name">Yo vivo en Monte Castro // Villa Luro</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/743668710113538/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="liniers villa luro floresta flores caballito once">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/621593940_2934672010062919_8432357872997673362_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeGxN916c6YtEFXBoVhB8egqlqjGkU7z01iWqMaRTvPTWB7dh4mUu54xZaXN40QlYKc&_nc_ohc=__kl6iUf2UAQ7kNvwFnK5Tx&_nc_oc=Adlofg6bWJbNZC0-UbBwG2SY-dRCTJ3ePcD8YCsZBNQBL2SDuX2KZjDD7tEX2LT4XAnGzVeIUvHFxiPoPhr6SnmA&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=0jI7mdNg2fXUjIx6PtE6oQ&oh=00_AfsJKjNMATHzN73NN4qReT0jrakh3eMxPfHbCELZOoL8ew&oe=69A70263" class="group-img"><div class="group-name">Compra y Venta - Liniers, Villa Luro, Floresta, Flores, Caballito, Once</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/florestaflores/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="parque avellaneda floresta flores mataderos villa luro liniers">
+            <div class="card-header"><img src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png" class="group-img"><div class="group-name">Parque Avellaneda Floresta Flores Mataderos Villa Luro Liniers</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/498513467547342/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="monte castro velez sarfield floresta villa santa rita">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/239341669_4449003201832699_8737423857179384767_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=106&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeE9Swo3RFv56WjY9RX-Y-1kv16Vnd7aRNy_XpWd3tpE3GFotxjIC7n6Nbn3yDpDkuY&_nc_ohc=7WC0M9AVZZgQ7kNvwESA8dX&_nc_oc=AdlRYds40AcIEm_eImuihgbq9BRshG_Tn8ZF1N99ey4cOyRDm78lUxT8oBA-9DJxO6UpAgrg6x8iPepkzm2i2C4y&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=7G35wv2gPoDOPKTMOV0W_w&oh=00_AfuZv--V6wv9ITHMYmmLTJ9rpzLcqrpVby3sP1C1-8PWDA&oe=69A6E676" class="group-img"><div class="group-name">Monte Castro - Velez Sarfield - Floresta - Villa Santa Rita</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/1472668869703939/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="flores floresta villa mitre">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/242238203_622535958737087_5902688877289223085_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeF-PMmNu9dfdI1VH5ZWMI_F0FPq3WGsHr7QU-rdYawevhDTk-vheXq9jEPXUKKW9nE&_nc_ohc=SjRE9vadCcUQ7kNvwEL05AK&_nc_oc=AdmlxBUmEl9lGeRp-QU6rcUa2rCfKNlsCEnHpb_oBUHn3HnXzc7Hd5U8hE6mF8PyZsDSntyGVT8blckxazfzKn5Y&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=-k3vzyhtAG9mtfS3uuIEFQ&oh=00_AfsU86HEYFdnfzR_9lDsSw_Km40MVFAct6GSlMOEpwTfmg&oe=69A70E21" class="group-img"><div class="group-name">Flores, Floresta, Villa Mitre, para vecinos y alrededores.</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/267214473929675/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="monte castro">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t1.6435-9/44152024_1885658111524340_6450995794320293888_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeFeF5KVr4Edy19H-oMYC8Pd1aicxBu43JrVqJzEG7jcmqaatwQheigwmRKN7AQjdlQ&_nc_ohc=ZjxsAkJiPqkQ7kNvwF8YCWi&_nc_oc=AdmA2PIdd-x0cWMXXzWr0wxAkZs4pxx5yT7kRB1qPaMLhYbZZVGJR3Vxocxd7pbHN9r8HvQeAyvz5DUNVSk9PNXN&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=iJdlIeYxuH1POfiGNKXA3w&oh=00_Aft-yzR7jQIAM7QkiGpJWscf6K7E_j6-QGfiXMihQZgtNg&oe=69C8A608" class="group-img"><div class="group-name">Clasificados Monte Castro</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/890682524653936/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="capital federal gran buenos aires">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/466792670_10230625745294551_71684981821632843_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeEJikCgPtaOZ20wyLwBDrQuPU0v2P2X81s9TS_Y_ZfzWxlGdJzOHply218xfqSgLUA&_nc_ohc=wo-mK5csWuQQ7kNvwHyiEmY&_nc_oc=AdmvqhzYw2k1mVJ19_aLi3g7toGG9dTkz9KKOHmzaxQsb6BlbREAUeZ-LGPIHM7lSW7RPVsmH_Vwe7D7kYYwWaN4&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=kj7rM8hvLk_GdAmTkduhMA&oh=00_Afsao4vRzqdci7wx4rBth888v5IzVvYnyci0Z8WEp7GVgA&oe=69A6E87C" class="group-img"><div class="group-name">Compra, venta y canje de todo. Capital Federal y Gran Buenos Aires.</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/1794677757437290/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="villa real">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/274818918_10160236697414653_2193102784333414563_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeGLhE0r7wuUolOXaqrawS_LiVxnDxJRrmyJXGcPElGubApe6csBi6BZz_XiLQsWwxo&_nc_ohc=FSsI_TY6d4AQ7kNvwHe9lXw&_nc_oc=AdnNLGIBfg-HthZpgen_LUG6hnjTJF9JbaWMlUULD9-wVm2ekE6gCvhuzxjU1WV318TRa514uLQTy6ejdUL81Gym&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=Nd_fZ8cFVedptqKhee8eHQ&oh=00_Aftswgba-6X1-utIzLARchJuZdZ3W2w35eA3NrJ_-Hc92w&oe=69A6ECE0" class="group-img"><div class="group-name">Yo vivo en Villa Real</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/yovivoenvillareal/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="monte castro villa luro versalles villa real velez sarsfield floresta">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/486551943_9856758901066623_1467780635832957781_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeEhkn5MmlQnNOs4toYp1Qv7upxScahLBsu6nFJxqEsGy9wSnJDhLDfa9OB94FML-AU&_nc_ohc=q1OSVSxhG00Q7kNvwGqEAwE&_nc_oc=AdnSXe-d1opbRyciy4l9E6bjS4I1R4ELQ0HNETfa4kO_RaKgfxzsRzE0h4mo-YaLnTGZVyxE4--jBYAbUTPtnGLe&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=hcd9ASFu56sb6xZKFaM0Lg&oh=00_Aft3wiCnsmdN6M-G5Jt1QD7oQWli9pKU-v7KbqZ5znJ_7Q&oe=69A71695" class="group-img"><div class="group-name">Monte Castro, Villa Luro, Versalles, Villa Real, Vélez Sarsfield,Floresta. Comuna 10</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/419563787837445/" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="villa luro">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t1.6435-9/45788002_265985620787592_8070584792925601792_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeF_D8WRQiMB-NFE4kViSiWvyTQmpEFKrq_JNCakQUqur6RHXmvcL6a6aCXXq2I9hto&_nc_ohc=czBC6djK-c0Q7kNvwFz3spZ&_nc_oc=AdmaUBsHzasatWEeQwDgmZuFERsS-iEMMJYqrlhuwGTsLXEbHf48KXDD7hz4nIZwssjLC53G_DEiWoqfCOmYa-Hu&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=12kIRXH7VY2C22308CBu3A&oh=00_AfsYhRiDAxTx-BB4RjMtiW_86EmsvvTzCF645JmMsHwzwg&oe=69C8915E" class="group-img"><div class="group-name">Villa Luro</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/143244712970575" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="villa luro liniers">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/468398468_10161723910918604_6250194528509223688_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeEHqmG6SzlZybxhM8grQQGCPMK9-A-xbD08wr34D7FsPecwZtKNdJoWx8WXmEsKloY&_nc_ohc=R8J5LNH83d8Q7kNvwHHUq2L&_nc_oc=AdnCdwZp8qpYTKF4ODNki8rP0Vk_0xKGCZlEUbNj4Gn_eeUYcHGuRJMNys_OXfTtX99lon3cH-V3koxQEXAttK-2&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=mF-Zuok3hyZrcF5JjPb6Pw&oh=00_Afu04SC4Ax4XlddU8erprQJVhUzzu7_4DYOoePFeLTFjAA&oe=69A6F03F" class="group-img"><div class="group-name">Vecinos de Villa Luro y Liniers</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/148469672526973" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="villa santa rita">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/270310409_10227868683885363_8377766499538060773_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeHmdxumAaTJa__KQVViJ3gvefEQkad2bfZ58RCRp3Zt9o3T1kS4kvDo362tE2BTG_U&_nc_ohc=RCZxfIerV7cQ7kNvwG-sXEB&_nc_oc=Adm9fQaFgddOg-7iRil89EPUCw5lLejTcoGZaJOOA4I_UCcscIKUDzqv1TZxOuAjq6FMxzJRDLRc1Dfu3Nt8n7lf&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=4AXPatbnhBGBqtsKOoreiA&oh=00_AfuYIZ6aj-72l6bHtRfXaBKqKq8EsKg5tCnFiiej_Hz69g&oe=69A6F694" class="group-img"><div class="group-name">Villa Santa Rita, mi barrio</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/340640396082780" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="monte castro">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t1.6435-9/204926598_1633552080176991_6645429965323813997_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeH6cnhYUpFPXzvUc447SIeiJSzK9A2Nk-olLMr0DY2T6i-Ifb_b0YGdNwT9pvf20bU&_nc_ohc=J7Ri1_7UROgQ7kNvwGgvWEd&_nc_oc=AdkmMXw6vJqmdHn-YVmZyYZKZYlRIWBOPFY3d99t5f3yBkIngsqyeI8S_KHlE3I0GrtWwVIxad20hCIHjE1GKRnf&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=0MKZYHV1UeLC8qGUY-SIww&oh=00_Afs30-nNRiS4jnZnCTRvEvOnUWX1hQe4b-gCXeuVSTXR4A&oe=69C8BD8F" class="group-img"><div class="group-name">Barrio Monte Castro - servicio al vecino</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/797830711092520" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="monte castro">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t39.30808-6/414933397_10232616204895929_3180535588944549775_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeE5KR_uN5ZeBCAdbhFFz0S23cEbGiaJJbjdwRsaJokluG1vVJaQTU_EXFF9iOKH17E&_nc_ohc=21uc4Jaj4rwQ7kNvwE_vNHf&_nc_oc=AdkbDD1UoYmVKGnUOlgEQfiU-JVPfQKhaO4TlcxRflSbfo_GVh0VNlhIB3NqpAtXYmrKGlSTWk-g3_YBYFsCfFfl&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=AmgWNAtyg84TT4pqTd5u4g&oh=00_AftlRn0688n0HfkzNh92gL5Xd2Mt-XHcYD_tDc2z4APjSg&oe=69A70914" class="group-img"><div class="group-name">Barrio Monte Castro</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/400297956763996" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
+
+        <div class="card" data-name="floresta monte castro">
+            <div class="card-header"><img src="https://scontent.faep33-1.fna.fbcdn.net/v/t1.6435-9/95254469_3263970833649915_7918058409616736256_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=25d718&_nc_eui2=AeHZk3beuBARrUY2QG_MKze6UwN15_JShClTA3Xn8lKEKW3ufKnrIq1lgTEIZkp3nIY&_nc_ohc=l6YQsL2R4R0Q7kNvwECGSLz&_nc_oc=AdlkngQCpeeH6c3_Drod11KQCPmTom15Xztzz8vXFTTBvwPO3RByp5pA1SYAwD0bKRK8XnbknLYUadtVccoaIMs6&_nc_zt=23&_nc_ht=scontent.faep33-1.fna&_nc_gid=smEwrbSyPbwmOEtpymmP5g&oh=00_Aft3YR3r76pMh1F5Uyn6tYVWTzUoHgS-DMPzI0LUrHKhLg&oe=69C88E48" class="group-img"><div class="group-name">Floresta - Monte Castro</div></div>
+            <div class="btn-container"><a href="https://www.facebook.com/groups/693924234720782" target="_blank" class="btn-ver">Ver</a></div>
+        </div>
 
     </div>
 </div>
 
-<footer>
-    &copy; 2026 AGM Servicios Informáticos
-</footer>
+<footer>&copy; 2026 AGM Servicios Informáticos</footer>
 
 <script>
     function filterGroups() {
         let input = document.getElementById('groupSearch').value.toLowerCase();
         let cards = document.getElementsByClassName('card');
+        let clearBtn = document.getElementById('clearSearch');
         let count = 0;
+
+        // Mostrar/Ocultar botón X
+        clearBtn.style.display = input.length > 0 ? 'block' : 'none';
+
         for (let i = 0; i < cards.length; i++) {
             let name = cards[i].getAttribute('data-name');
             if (name.includes(input)) {
@@ -208,6 +319,22 @@
         }
         document.getElementById('groupCount').innerText = count;
     }
+
+    // Función para el botón X
+    function clearInput() {
+        const searchInput = document.getElementById('groupSearch');
+        searchInput.value = '';
+        filterGroups();
+        searchInput.focus(); // Devuelve el foco al buscador
+    }
+
+    // Escuchar la tecla Escape
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            clearInput();
+            document.getElementById('groupSearch').blur();
+        }
+    });
 </script>
 
 </body>
