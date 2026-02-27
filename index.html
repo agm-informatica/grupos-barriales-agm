@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Grupos - AGM Servicios Informáticos</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e4e6eb;
+            --accent-orange: #FF8C00;
+            --accent-hover: #e67e00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #000;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-orange);
+        }
+
+        .header-img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        h1 {
+            margin: 10px 0;
+            font-size: 1.6rem;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .search-wrapper {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        #groupSearch {
+            width: 100%;
+            padding: 12px 80px 12px 15px;
+            border-radius: 8px;
+            border: 2px solid #333;
+            background-color: #1e1e1e;
+            color: white;
+            outline: none;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        #groupCount {
+            position: absolute;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--accent-orange);
+            color: black;
+            font-weight: bold;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent-orange);
+            background-color: #252525;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .group-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #333;
+            border: 2px solid #444;
+            flex-shrink: 0;
+        }
+
+        .group-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            flex: 1;
+            line-height: 1.3;
+        }
+
+        .btn-ver {
+            background-color: var(--accent-orange);
+            color: #000;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .btn-ver:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .hidden { display: none; }
+
+        footer { text-align: center; padding: 30px; color: #666; font-size: 0.8rem; }
+    </style>
+</head>
+<body onload="filterGroups()">
+
+<header>
+    <img src="AGM.png" alt="AGM Logo" class="header-img">
+    <h1>AGM Servicios Informáticos</h1>
+</header>
+
+<div class="search-wrapper">
+    <input type="text" id="groupSearch" placeholder="Filtrar por barrio..." onkeyup="filterGroups()">
+    <span id="groupCount">0</span>
+</div>
+
+<div class="container">
+    <div id="groupGrid" class="grid">
+        
+        <div class="card" data-name="liniers"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE LINIERS (Servicios)</div></div><a href="https://www.facebook.com/groups/2966390743654144/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="parque chacabuco"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Vecinos de Parque Chacabuco</div></div><a href="https://www.facebook.com/groups/vecinosdeparquechacabuco/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="comuna 7 flores parque chacabuco caballito floresta"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">COMUNA 7 FLORES P. CHACABUCO</div></div><a href="https://www.facebook.com/groups/928685464320757/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="versalles monte castro mataderos villa luro"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Emprendedores Versailles/M.Castro</div></div><a href="https://www.facebook.com/groups/760208125740896/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="caballito clasificados"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Clasificados de Caballito</div></div><a href="https://www.facebook.com/groups/5573448262735576/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="villa luro vecinos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE VILLA LURO</div></div><a href="https://www.facebook.com/groups/2056502147923947/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="floresta oficial"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE FLORESTA (Oficial)</div></div><a href="https://www.facebook.com/groups/268949373825941/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="mataderos barrio alberdi"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE MATADEROS</div></div><a href="https://www.facebook.com/groups/743668710113538/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="floresta flores venta"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">floresta y flores venta</div></div><a href="https://www.facebook.com/groups/florestaflores/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="versalles villa luro servicios"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Versalles, V. Luro (Servicios)</div></div><a href="https://www.facebook.com/groups/498513467547342/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="villa santa rita"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Villa Santa Rita</div></div><a href="https://www.facebook.com/groups/1472668869703939/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="villa del parque villa devoto"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Vecinos V. del Parque y Devoto</div></div><a href="https://www.facebook.com/groups/267214473929675/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="liniers mataderos lugano servicios"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">LINIERS, MATADEROS Y LUGANO</div></div><a href="https://www.facebook.com/groups/890682524653936/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="villa luro versalles monte castro ventas"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Villa Luro, Versalles (Ventas)</div></div><a href="https://www.facebook.com/groups/1794677757437290/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="villa real yo vivo"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Yo vivo en VILLA REAL</div></div><a href="https://www.facebook.com/groups/yovivoenvillareal/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="monte castro vecinos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VECINOS DE MONTE CASTRO</div></div><a href="https://www.facebook.com/groups/419563787837445/" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="barrio naon mataderos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Barrio Naon - Mataderos</div></div><a href="https://www.facebook.com/groups/143244712970575" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="versalles mi barrio"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">VERSALLES "MI BARRIO"</div></div><a href="https://www.facebook.com/groups/148469672526973" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="villa luro versalles vecinos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Vecinos V. LURO Y VERSALLES</div></div><a href="https://www.facebook.com/groups/340640396082780" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="caballito norte vecinos"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">Vecinos de Caballito Norte</div></div><a href="https://www.facebook.com/groups/797830711092520" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="villa devoto villa real cercanias"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">V. Devoto, V. Real y cercanías</div></div><a href="https://www.facebook.com/groups/400297956763996" target="_blank" class="btn-ver">Ver grupo</a></div>
+        <div class="card" data-name="parque avellaneda floresta venta"><div class="card-header"><img src="https://via.placeholder.com/60" class="group-img"><div class="group-name">parque avellaneda, floresta venta</div></div><a href="https://www.facebook.com/groups/693924234720782" target="_blank" class="btn-ver">Ver grupo</a></div>
+
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 AGM Servicios Informáticos
+</footer>
+
+<script>
+    function filterGroups() {
+        let input = document.getElementById('groupSearch').value.toLowerCase();
+        let cards = document.getElementsByClassName('card');
+        let count = 0;
+        for (let i = 0; i < cards.length; i++) {
+            let name = cards[i].getAttribute('data-name');
+            if (name.includes(input)) {
+                cards[i].classList.remove('hidden');
+                count++;
+            } else {
+                cards[i].classList.add('hidden');
+            }
+        }
+        document.getElementById('groupCount').innerText = count;
+    }
+</script>
+
+</body>
+</html>
